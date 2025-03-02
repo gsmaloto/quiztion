@@ -13,7 +13,7 @@ export default function Home() {
       <div className="flex space-x-4">
         <Link href="/quiz">
           <button className="bg-white text-blue-600 font-semibold px-6 py-3 rounded-lg shadow-md cursor-pointer hover:bg-gray-200">
-            Get Started
+            Play Now
           </button>
         </Link>
         {/* <Link href="/about">

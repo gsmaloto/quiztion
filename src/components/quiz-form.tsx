@@ -1,10 +1,10 @@
 "use client";
 
 import { useQuestionStore } from "@/store/question-store";
-import { useRouter } from "next/navigation";
+import { useQuizStore } from "@/store/quiz-store";
 import { useState } from "react";
 
-const QuizForm = () => {
+export default function QuizPage() {
   const [topic, setTopic] = useState("");
   const [difficulty, setDifficulty] = useState("Easy");
   const [numQuestions, setNumQuestions] = useState(5);
@@ -14,9 +14,7 @@ const QuizForm = () => {
 
   // zustand
   const { setQuestions } = useQuestionStore();
-
-  // next
-  const router = useRouter();
+  const { setGameStatus } = useQuizStore();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     try {
@@ -36,7 +34,7 @@ const QuizForm = () => {
       setQuestions(data.questions);
       console.log(data);
 
-      router.push("/play");
+      setGameStatus("play-quiz");
       setIsLoading(false);
     } catch (error) {
       console.error(error);
@@ -46,13 +44,13 @@ const QuizForm = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-4">
-      <h1 className="text-5xl font-extrabold mb-4 text-center">Quiztion</h1>
+    <div>
+      {/* <h1 className="text-5xl font-extrabold mb-4 text-center">Quiztion</h1>
       <p className="text-lg mb-6 text-center max-w-2xl">
         Create your own quiz and challenge your friends! Customize topics,
         difficulty, and more.
-      </p>
-      <div className="relative bg-white text-gray-800 shadow-2xl rounded-lg p-8 max-w-lg w-full border border-gray-300">
+      </p> */}
+      <div>
         {isLoading && (
           <div className="absolute inset-0 bg-white/70 flex items-center justify-center">
             <h4 className="text-indigo-700 text-2xl font-semibold animate-pulse">
@@ -61,7 +59,7 @@ const QuizForm = () => {
           </div>
         )}
         <h2 className="text-3xl font-semibold mb-4 text-center text-indigo-700">
-          Create a Quiz
+          Create a Quiztion
         </h2>
         {error && (
           <div className="bg-red-400 rounded text-white p-2 my-8">{error}</div>
@@ -126,6 +124,4 @@ const QuizForm = () => {
       </div>
     </div>
   );
-};
-
-export default QuizForm;
+}

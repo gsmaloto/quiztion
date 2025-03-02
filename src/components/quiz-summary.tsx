@@ -1,15 +1,20 @@
-import { useRouter } from "next/navigation";
 import { Answer } from "@/types/answer";
+import { useQuizStore } from "@/store/quiz-store";
+import { useQuestionStore } from "@/store/question-store";
 
 export default function QuizSummary({
-  elapsedTime,
+  totalTime,
   answers,
 }: {
-  elapsedTime: number;
+  totalTime: number;
   answers: Answer[];
 }) {
-  // next
-  const router = useRouter();
+
+  // zustand
+  const { setGameStatus, setAnswers } = useQuizStore();
+  const { setQuestions } = useQuestionStore();
+
+  console.log(answers);
 
   return (
     <div className="mt-4">
@@ -17,12 +22,12 @@ export default function QuizSummary({
       <div>
         <p className="mb-2 text-gray-700">
           Total Time:{" "}
-          <span className="font-semibold text-blue-600">{elapsedTime}s</span>
+          <span className="font-semibold text-blue-600">{totalTime}s</span>
         </p>
         <p className="mb-2 text-gray-700">
           Result:{" "}
           <span className="font-semibold text-blue-600">
-            {answers.filter((item) => item.correct).length} / {answers.length}
+            {answers.filter((item) => item.isCorrect).length} / {answers.length}
           </span>
         </p>
       </div>
@@ -32,7 +37,7 @@ export default function QuizSummary({
           <li
             key={index}
             className={`p-2 border rounded-md w-full ${
-              item.correct ? "bg-green-100" : "bg-red-100/80"
+              item.isCorrect ? "bg-green-100" : "bg-red-100/80"
             }`}
           >
             <p className="font-semibold">
@@ -42,13 +47,13 @@ export default function QuizSummary({
               <span className="font-semibold">Your Answer:</span>{" "}
               <span
                 className={`${
-                  item.correct ? "text-green-600" : "text-red-600"
+                  item.isCorrect ? "text-green-600" : "text-red-600"
                 }`}
               >
                 {item.selected}
               </span>
             </p>
-            {!item.correct && (
+            {!item.isCorrect && (
               <p className="text-blue-600">
                 <span className="font-semibold">Correct Answer:</span>{" "}
                 {item.correctAnswer}
@@ -61,16 +66,20 @@ export default function QuizSummary({
       <div className="space-y-2 py-2">
         <button
           className="bg-indigo-600 hover:bg-indigo-700 w-full py-4 text-white rounded-md font-bold transition duration-300"
-          onClick={() => router.push("/quiz")}
+          onClick={() => {
+            setGameStatus("create-quiz");
+            setAnswers([]);
+            setQuestions([]);
+          }}
         >
           Play Again
         </button>
-        <button
+        {/* <button
           className="bg-indigo-600 hover:bg-indigo-700 w-full py-4 text-white rounded-md font-bold transition duration-300"
           onClick={() => router.push("/quiz")}
         >
           Share questions
-        </button>
+        </button> */}
       </div>
     </div>
   );

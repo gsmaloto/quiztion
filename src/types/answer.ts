@@ -1,6 +1,6 @@
 export type Answer = {
   question: string;
   selected: string;
-  correct: boolean;
+  isCorrect: boolean;
   correctAnswer: string;
 };
