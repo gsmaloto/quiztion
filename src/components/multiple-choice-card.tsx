@@ -19,7 +19,7 @@ export function MultipleChoiceCard({
   const { questions } = useQuestionStore();
 
   return (
-    <>
+    <div className="bg-white p-6 rounded-lg shadow-md">
       <h3 className="text-lg font-bold mb-4">
         {currentQuestionIndex + 1}. {currentQuestion.question}
       </h3>
@@ -52,6 +52,6 @@ export function MultipleChoiceCard({
           Next
         </button>
       </div>
-    </>
+    </div>
   );
 }
