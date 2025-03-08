@@ -1,3 +1,4 @@
+import { encodeBase64 } from "./../../../lib/utils";
 import { Question } from "@/types/question";
 import { NextResponse } from "next/server";
 import OpenAI from "openai";
@@ -59,7 +60,7 @@ export async function POST(req: Request) {
         },
       ],
       temperature: 0.7,
-      max_tokens: 1000,
+      max_tokens: 75 * numQuestions,
     });
     console.log("response", response);
 
@@ -68,7 +69,7 @@ export async function POST(req: Request) {
     try {
       const parsedQuestions: { questions: Question[] } = JSON.parse(aiContent);
       console.log("parsedQuestions", parsedQuestions);
-      return NextResponse.json(parsedQuestions);
+      return NextResponse.json(encodeBase64(JSON.stringify(parsedQuestions)));
     } catch (error) {
       return NextResponse.json(
         { error: "Failed to parsed questions", details: error },

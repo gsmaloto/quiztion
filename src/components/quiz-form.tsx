@@ -1,5 +1,6 @@
 "use client";
 
+import { decodeBase64 } from "@/lib/utils";
 import { useQuestionStore } from "@/store/question-store";
 import { useQuizStore } from "@/store/quiz-store";
 import { useState } from "react";
@@ -31,8 +32,10 @@ export default function QuizPage() {
       });
 
       const data = await response.json();
-      setQuestions(data.questions);
-      console.log(data);
+      console.log("data", data);
+      const decodedData = JSON.parse(decodeBase64(data));
+      console.log("decodedData", decodedData);
+      setQuestions(decodedData.questions);
 
       setGameStatus("play-quiz");
       setIsLoading(false);
