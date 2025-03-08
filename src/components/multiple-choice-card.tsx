@@ -27,7 +27,8 @@ export function MultipleChoiceCard({
         {currentQuestion.choices.map((choice: string, index: number) => (
           <button
             key={index}
-            className={`w-full px-4 py-2 border rounded-md text-left cursor-pointer transition-all 
+            onDoubleClick={() => handleNext()}
+            className={`w-full px-4 py-6 border rounded-md text-left cursor-pointer transition-all 
                   ${
                     selectedOption === choice
                       ? "bg-blue-100 border-blue-500"
@@ -44,13 +45,6 @@ export function MultipleChoiceCard({
         <span>
           {currentQuestionIndex + 1} of {questions.length} Questions
         </span>
-        <button
-          className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md disabled:opacity-50"
-          onClick={handleNext}
-          disabled={!selectedOption}
-        >
-          Next
-        </button>
       </div>
     </div>
   );
