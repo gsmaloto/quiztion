@@ -71,13 +71,14 @@ export async function POST(req: Request) {
       console.log("parsedQuestions", parsedQuestions);
       return NextResponse.json(encodeBase64(JSON.stringify(parsedQuestions)));
     } catch (error) {
+      console.error("Error parsing questions:", error);
       return NextResponse.json(
         { error: "Failed to parsed questions", details: error },
         { status: 500 }
       );
     }
   } catch (error) {
-    console.error(error);
+    console.error("Error generating questions:", error);
     return NextResponse.json(
       { error: "Failed to generate questions" },
       { status: 500 }
