@@ -1,6 +1,7 @@
 import { useQuestionStore } from "@/store/question-store";
 import { Question } from "@/types/question";
 import Image from "next/image";
+import { useQuizStore } from "@/store/quiz-store";
 
 type MultipleChoiceCardProps = {
   currentQuestionIndex: number;
@@ -19,12 +20,13 @@ export function MultipleChoiceCard({
 }: MultipleChoiceCardProps) {
   // zustand
   const { questions } = useQuestionStore();
+  const { quiz } = useQuizStore();
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-md max-w-2xl mx-auto">
       <div className="flex items-center justify-between mb-4">
         <span className="text-sm font-medium text-gray-500">
-          Technology Basics • medium difficulty
+          {quiz.topic} • {quiz.difficulty} difficulty
         </span>
         <span className="text-sm font-medium">
           Score: {currentQuestionIndex + 1} of {questions.length}
