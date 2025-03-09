@@ -17,7 +17,7 @@ export default function QuizPage() {
   // const [avatar, setAvatar] = useState<string>("YA");
 
   // zustand
-  const { setQuestions } = useQuestionStore();
+  const { setQuestions, questions } = useQuestionStore();
   const { setGameStatus, setQuiz } = useQuizStore();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -48,8 +48,8 @@ export default function QuizPage() {
         type,
       });
 
-      setGameStatus("play-quiz");
-      setIsLoading(false);
+      // setGameStatus("play-quiz");
+      // setIsLoading(false);
     } catch (error) {
       console.error(error);
       setError("Failed to generate questions. Try again later.");
@@ -263,9 +263,31 @@ export default function QuizPage() {
       {isLoading && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
           <div className="bg-white p-6 rounded-lg shadow-lg">
-            <h4 className="text-blue-500 text-xl font-semibold animate-pulse">
-              Generating your quiz questions...
-            </h4>
+            <div>
+              {questions?.length > 0 ? (
+                <div className="flex flex-col gap-4">
+                  <h3 className="text-blue-500 text-xl font-semibold">
+                    Quiz generated successfully
+                  </h3>
+                  <p className="text-sm text-gray-500">
+                    Note: Double click choices to select the answer
+                  </p>
+                  <button
+                    onClick={() => {
+                      setGameStatus("play-quiz");
+                      setIsLoading(false);
+                    }}
+                    className="bg-blue-500 text-white py-2 px-4 rounded-lg font-semibold hover:bg-blue-600 transition-colors"
+                  >
+                    Start Quiz
+                  </button>
+                </div>
+              ) : (
+                <h4 className="text-blue-500 text-xl font-semibold animate-pulse">
+                  Generating quiz questions...
+                </h4>
+              )}
+            </div>
           </div>
         </div>
       )}
