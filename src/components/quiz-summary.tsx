@@ -32,7 +32,7 @@ export default function QuizSummary({
         <div className="flex items-start gap-4">
           <Trophy className="text-pink-500 h-12 w-12" />
           <div>
-            <h2 className="text-xl font-bold">asd</h2>
+            <h2 className="text-xl font-bold">{quiz.name}</h2>
             <p className="text-gray-600">
               {quiz.topic} • {quiz.difficulty} difficulty
             </p>
