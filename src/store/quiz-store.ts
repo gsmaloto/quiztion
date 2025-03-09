@@ -7,6 +7,21 @@ interface QuizStore {
 
   answers: Answer[];
   setAnswers: (answers: Answer[]) => void;
+
+  quiz: {
+    name: string;
+    topic: string;
+    difficulty: string;
+    numQuestions: number;
+    type: string;
+  };
+  setQuiz: (quiz: {
+    name: string;
+    topic: string;
+    difficulty: string;
+    numQuestions: number;
+    type: string;
+  }) => void;
 }
 
 export const useQuizStore = create<QuizStore>((set) => ({
@@ -15,4 +30,13 @@ export const useQuizStore = create<QuizStore>((set) => ({
 
   answers: [],
   setAnswers: (answers) => set({ answers }),
+
+  quiz: {
+    name: "",
+    topic: "",
+    difficulty: "",
+    numQuestions: 0,
+    type: "",
+  },
+  setQuiz: (quiz) => set({ quiz }),
 }));

@@ -68,7 +68,7 @@ export default function QuizPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient px-4">
+    <div className="min-h-screen flex flex-col items-center justify-center px-4">
       <div className=" h-11/12 w-full md:w-[800px] mx-auto">
         {gameStatus === "create-quiz" ? (
           <QuizForm />

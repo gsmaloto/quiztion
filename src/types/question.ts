@@ -3,6 +3,10 @@ export type Question = {
   type: QuestionType;
   answer: string;
   choices: string[];
+  image?: {
+    url: string;
+    alt: string;
+  };
 };
 
 export type QuestionType = "multiple_choice" | "identification";
@@ -12,4 +16,8 @@ export type QuestionType = "multiple_choice" | "identification";
 //     type: "multiple_choice",
 //     choices: ["var", "int", "string", "declare"],
 //     answer: "var",
+//     image: {
+//       url: "/images/example.png",
+//       alt: "JavaScript code example"
+//     }
 //   },

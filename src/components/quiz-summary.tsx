@@ -1,7 +1,7 @@
 import { Answer } from "@/types/answer";
 import { useQuizStore } from "@/store/quiz-store";
 import { useQuestionStore } from "@/store/question-store";
-import { CircleCheck, CircleX, ListChecks, Timer } from "lucide-react";
+import { CircleCheck, CircleX, Trophy } from "lucide-react";
 
 export default function QuizSummary({
   totalTime,
@@ -10,7 +10,7 @@ export default function QuizSummary({
   totalTime: number;
   answers: Answer[];
 }) {
-  const { setGameStatus, setAnswers } = useQuizStore();
+  const { setGameStatus, setAnswers, quiz } = useQuizStore();
   const { setQuestions } = useQuestionStore();
   const correctAnswersCount = answers.filter((item) => item.isCorrect).length;
   const scorePercentage = (
@@ -19,97 +19,101 @@ export default function QuizSummary({
   ).toFixed(0);
 
   return (
-    <main className="space-y-4">
-      <div className="mt-4 p-4 bg-white rounded-lg shadow-md">
-        <h3 className="text-2xl font-bold mb-2 text-center">Quiz Results</h3>
-        <p className="text-lg text-gray-600 text-center mb-4">
-          Your performance summary
-        </p>
-        <div className="text-center mb-4">
-          <h1 className="text-4xl font-bold text-blue-600">
-            {scorePercentage}%
-          </h1>
-          <p className="text-lg">
-            You scored {correctAnswersCount} out of {answers.length} Questions
-          </p>
-        </div>
-        <div className="mb-12">
-          <div className="bg-gray-200 mx-auto rounded-full h-2 w-full md:w-3/4">
-            <div
-              className="bg-blue-600 h-2 rounded-full"
-              style={{
-                width: `${scorePercentage}%`,
-              }}
-            />
+    <div className="max-w-3xl mx-auto space-y-6 p-4">
+      <h1 className="text-3xl font-bold text-center text-blue-500">
+        Quiz Completed!
+      </h1>
+      <p className="text-center text-gray-600">
+        {"Nice try! There's room for improvement."}
+      </p>
+
+      {/* User Info Card */}
+      <div className="bg-white rounded-lg shadow-md p-6">
+        <div className="flex items-start gap-4">
+          <Trophy className="text-pink-500 h-12 w-12" />
+          <div>
+            <h2 className="text-xl font-bold">asd</h2>
+            <p className="text-gray-600">
+              {quiz.topic} • {quiz.difficulty} difficulty
+            </p>
+            <p className="text-sm text-gray-500">Quiz Participant</p>
           </div>
         </div>
 
-        <div className="flex justify-evenly items-center mb-12">
-          <p className="flex flex-col items-center gap-2">
-            <CircleCheck className="text-green-600 h-10 w-10" />
-            <span className="text-3xl">{correctAnswersCount}</span>
-            <span className="font-semibold text-gray-400">Correct</span>
-          </p>
-          <p className="flex flex-col items-center gap-2">
-            <CircleX className="text-red-600 h-10 w-10" />
-            <span className="text-3xl">
-              {answers.length - correctAnswersCount}
-            </span>
-            <span className="font-semibold text-gray-400">Incorrect</span>
-          </p>
-        </div>
-        <div className="mb-2 text-gray-700 flex gap-2 items-center justify-center ">
-          <Timer className="h-12 w-12 text-blue-600" />
-          <div className="text-center">
-            <p className="font-semibold text-xl">{totalTime}s</p>
-            <p className="text-gray-400">Time taken</p>
+        {/* Score Display */}
+        <div className="grid sm:grid-cols-3 gap-4 mt-6 text-center">
+          <div>
+            <p className="text-3xl font-bold text-green-500">
+              {correctAnswersCount}/{answers.length}
+            </p>
+            <p className="text-sm text-gray-600">Correct</p>
           </div>
-        </div>
-
-        <div className="space-y-2 py-2">
-          <button
-            className="bg-indigo-600 hover:bg-indigo-700 w-full py-4 text-white rounded-md font-bold transition duration-300"
-            onClick={() => {
-              setGameStatus("create-quiz");
-              setAnswers([]);
-              setQuestions([]);
-            }}
-          >
-            Try Another Quiz
-          </button>
+          <div>
+            <p className="text-3xl font-bold">{scorePercentage}%</p>
+            <p className="text-sm text-gray-600">Accuracy</p>
+          </div>
+          <div>
+            <p className="text-3xl font-bold">{totalTime}s</p>
+            <p className="text-sm text-gray-600">Time Taken</p>
+          </div>
         </div>
       </div>
-      <div className="bg-white p-6 rounded-lg shadow-md">
-        <h4 className="text-2xl font-semibold mb-2 flex items-center gap-2 text-gray-700">
-          <ListChecks className="h-12 w-12" /> Question Review
-        </h4>
-        <ul className="space-y-6 py-4">
+
+      {/* Quiz Details Card */}
+      <div className="bg-white rounded-lg shadow-md p-6">
+        <h3 className="text-xl font-bold mb-4">Quiz Details</h3>
+        <div className="space-y-2">
+          <div className="flex justify-between">
+            <span className="text-gray-600">Topic:</span>
+            <span>{quiz.topic}</span>
+          </div>
+          <div className="flex justify-between">
+            <span className="text-gray-600">Questions:</span>
+            <span>{answers.length}</span>
+          </div>
+          <div className="flex justify-between">
+            <span className="text-gray-600">Time Mode:</span>
+            <span>No</span>
+          </div>
+          <div className="flex justify-between">
+            <span className="text-gray-600">AI Hints:</span>
+            <span>Enabled</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Question Review */}
+      <div className="bg-white rounded-lg shadow-md p-6">
+        <h3 className="text-xl font-bold mb-4">Question Review</h3>
+        <ul className="space-y-6">
           {answers.map((item, index) => (
-            <li key={index}>
-              <div className="grid grid-cols-[50px_1fr]">
+            <li key={index} className="space-y-2">
+              <div className="flex items-start gap-2">
                 {item.isCorrect ? (
-                  <CircleCheck className="text-green-600 mt-4" />
+                  <CircleCheck className="text-green-500 h-5 w-5 mt-1 flex-shrink-0" />
                 ) : (
-                  <CircleX className="text-red-600 mt-4" />
+                  <CircleX className="text-red-500 h-5 w-5 mt-1 flex-shrink-0" />
                 )}
                 <div>
-                  <p className="font-semibold">
-                    {index + 1}: {item.question}
+                  <p className="font-medium">
+                    {index + 1}. {item.question}
                   </p>
-                  <p className="mt-1">
-                    <span className="font-semibold">Your Answer:</span>{" "}
+                  <p className="text-gray-600">
+                    Your answer:{" "}
                     <span
-                      className={`${
-                        item.isCorrect ? "text-green-600" : "text-red-600"
-                      }`}
+                      className={
+                        item.isCorrect ? "text-green-500" : "text-red-500"
+                      }
                     >
                       {item.selected}
                     </span>
                   </p>
                   {!item.isCorrect && (
-                    <p className="text-blue-600 mt-1">
-                      <span className="font-semibold">Correct Answer:</span>{" "}
-                      {item.correctAnswer}
+                    <p className="text-gray-600">
+                      Correct answer:{" "}
+                      <span className="text-green-500">
+                        {item.correctAnswer}
+                      </span>
                     </p>
                   )}
                 </div>
@@ -118,6 +122,33 @@ export default function QuizSummary({
           ))}
         </ul>
       </div>
-    </main>
+
+      {/* Action Buttons */}
+      <div className="flex gap-4">
+        <button
+          onClick={() => {
+            setGameStatus("create-quiz");
+            setAnswers([]);
+            setQuestions([]);
+          }}
+          className="flex-1 bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors"
+        >
+          Take Another Quiz
+        </button>
+        <button
+          onClick={() => {
+            setGameStatus("create-quiz");
+            setAnswers([]);
+            setQuestions([]);
+          }}
+          className="flex-1 border border-blue-500 text-blue-500 px-4 py-2 rounded-md hover:bg-blue-50 transition-colors"
+        >
+          Back to Home
+        </button>
+        <button className="flex-1 bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors">
+          Share Results
+        </button>
+      </div>
+    </div>
   );
 }
